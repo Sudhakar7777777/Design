@@ -216,7 +216,7 @@ HTTP Response Codes:
 503 Service Unavailable — The requested service is not available
 ```
 
-===================================================
+## Design the Algorith to generate Short link or Slug
 
 Create an Architecture design for the API described in part 1:
 
@@ -247,7 +247,7 @@ NoSQL DB
 
 MongoDB
 
-============= Scalability / Performance (assuming 1 Billion URLs and high traffic requests) =============
+## Scalability / Performance (assuming 1 Billion URLs and high traffic requests)
 
 1. Ensure components are decoupled from one another and each service has 1 clear responsibility/domain.
 
@@ -262,7 +262,3 @@ LB Algorith -- Round robin, health, load, ...
 LB1 .... lookup on Cache?
 
 LB --> LB --> Proxy Service (Cache lookup : Memory ) (Cluster - of nodes -- share the memory )--> WebApp
-
-```
-
-```
