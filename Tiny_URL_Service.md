@@ -199,23 +199,23 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
 #### HTTP Response Code Categories:
 
 ```
-1XX 100-level (Informational) — Server acknowledges a request
-2XX 200-level (Success) — Server completed the request as expected
-3XX 300-level (Redirection) — Client needs to perform further actions to complete the request
-4XX 400-level (Client error) — Client sent an invalid request
-5XX 500-level (Server error) — Server failed to fulfill a valid request due to an error with server
+1XX 100-level (Informational) 	— Server acknowledges a request
+2XX 200-level (Success) 		— Server completed the request as expected
+3XX 300-level (Redirection) 	— Client needs to perform further actions to complete the request
+4XX 400-level (Client error) 	— Client sent an invalid request
+5XX 500-level (Server error) 	— Server failed to fulfill a valid request due to an error with server
 ```
 
 #### HTTP Response Codes:
 
 ```
-400 Bad Request — Client sent an invalid request — such as lacking required request body or parameter
-401 Unauthorized — Client failed to authenticate with the server
-403 Forbidden — Client authenticated but does not have permission to access the requested resource
-404 Not Found — The requested resource does not exist
-412 Precondition Failed — One or more conditions in the request header fields evaluated to false
-500 Internal Server Error — A generic error occurred on the server
-503 Service Unavailable — The requested service is not available
+400 Bad Request 			— Client sent an invalid request — such as lacking required request body or parameter
+401 Unauthorized 			— Client failed to authenticate with the server
+403 Forbidden 				— Client authenticated but does not have permission to access the requested resource
+404 Not Found 				— The requested resource does not exist
+412 Precondition Failed 	— One or more conditions in the request header fields evaluated to false
+500 Internal Server Error 	— A generic error occurred on the server
+503 Service Unavailable 	— The requested service is not available
 ```
 
 ## Design the Algorith to generate Short link or Slug
