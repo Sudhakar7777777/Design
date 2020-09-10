@@ -75,9 +75,9 @@ Example:
 
 Design the API endpoints (CRUD) to include the resource name, payload, and response code. For this part just design the interface, as documentation for developers or swagger output.
 
-1. Create a new url, will auto generate the slug or the short link and create time.
+1. **Create** a new url, will auto generate the slug or the short link and create time.
 
-   `Request:`
+   **Request:**
 
    ```
    ===>
@@ -91,7 +91,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
 
    PS: 60 _ 24 _ 10 = 1440 / 10 days in minutes
 
-   `Success Response:`
+   **Success Response:**
 
    ```
    <===
@@ -105,7 +105,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
    }
    ```
 
-   `Application error reponse:`
+   **Application error reponse:**
 
    ```
    <===
@@ -121,7 +121,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
    }
    ```
 
-   `System error reponse:`
+   **System error reponse:**
 
    ```
    <===
@@ -137,7 +137,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
    }
    ```
 
-1. Read or redirecting user from the short link to destination url.
+1. **Read or redirecting** user from the short link to destination url.
 
    ```
    ===>
@@ -150,7 +150,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
    Location: <<destination>> (header attribute)
    ```
 
-1. Update the destination as user was to change to new url.
+1. **Update** the destination as user was to change to new url.
 
    ```
    ===>
@@ -181,7 +181,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
    }
    ```
 
-1. Delete the slug per user request.
+1. **Delete** the slug per user request.
 
    ```
    ===>
@@ -196,7 +196,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
    }
    ```
 
-HTTP Response Codes:
+#### HTTP Response Code Categories:
 
 ```
 1XX 100-level (Informational) — Server acknowledges a request
@@ -205,6 +205,8 @@ HTTP Response Codes:
 4XX 400-level (Client error) — Client sent an invalid request
 5XX 500-level (Server error) — Server failed to fulfill a valid request due to an error with server
 ```
+
+#### HTTP Response Codes:
 
 ```
 400 Bad Request — Client sent an invalid request — such as lacking required request body or parameter
