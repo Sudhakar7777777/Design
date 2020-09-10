@@ -196,7 +196,9 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
    }
    ```
 
-#### HTTP Response Code Categories:
+### HTTP Response Code Reference:
+
+#### Categories:
 
 ```
 1XX 100-level (Informational) 	— Server acknowledges a request
@@ -206,7 +208,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
 5XX 500-level (Server error) 	— Server failed to fulfill a valid request due to an error with server
 ```
 
-#### HTTP Response Codes:
+#### Codes:
 
 ```
 400 Bad Request 		— Client sent an invalid request — such as lacking required request body or parameter
