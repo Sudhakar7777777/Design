@@ -12,8 +12,8 @@ URL shortening is used for optimizing links across devices, tracking individual 
 
 Example:
 
-- Original URL : https://spokeo.com/collection/page/5668639101419520/
-- Short Link : http://tinyurl.com/jlg8zpc
+- Original URL : `https://spokeo.com/collection/page/5668639101419520/`
+- Short Link : `http://tinyurl.com/jlg8zpc`
 
 ## Understanding the requirements: (Scope of discussion, ask clarifying questions)
 
@@ -32,17 +32,17 @@ Example:
 
     Assuming 10 million users in the system. And create short links 10 per month. And each URL is read 100 times by other users.
 
-    Write load - 10 _ 10 million = 100M
-    Read load - 100 _ 10 \* 10 million = 10B
+    - Write load `10 * 10 million = 100M writes`
+    - Read load `100 * 10 * 10 million = 10B reads`
 
-    Read write ratio of 1000:1. Read heavy system.
+    Read write ratio of `1000:1`. **Read heavy** system.
 
     We could calculate the system throughput using the scale.
 
-    Scale: 1 request per second = 2.5 million requests per month
+    **Scale:** 1 request per second = `2.5 million` requests per month
 
-    Write load - 40 request per second
-    Read load - 4000 request per second
+    - Write throughput - `40 request per second`
+    - Read throughput - `4000 request per second`
 
 1.  Capacity estimates: **Storage**
 
@@ -77,7 +77,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
 
 1. Create a new url, will auto generate the slug or the short link and create time.
 
-   Request:
+   `Request:`
 
    ```
    ===>
@@ -91,7 +91,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
 
    PS: 60 _ 24 _ 10 = 1440 / 10 days in minutes
 
-   Success Response:
+   `Success Response:`
 
    ```
    <===
@@ -105,7 +105,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
    }
    ```
 
-   Application error reponse:
+   `Application error reponse:`
 
    ```
    <===
@@ -121,7 +121,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
    }
    ```
 
-   System error reponse:
+   `System error reponse:`
 
    ```
    <===
