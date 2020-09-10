@@ -17,49 +17,49 @@ Example:
 
 ## Understanding the requirements: (Scope of discussion, ask clarifying questions)
 
-- Functional Requirements:
+### Functional Requirements:
 
-  1.  Given a URL, our service should generate a shorter and unique alias of it.This is called a short link. This link should be short enough to be easily copied and pasted into applications.
-  1.  When users access a short link, our service should redirect them to the original link.
-  1.  Links will expire after a standard default timespan. Users should be able to specify the expiration time.
+1.  Given a URL, our service should generate a shorter and unique alias of it.This is called a short link. This link should be short enough to be easily copied and pasted into applications.
+1.  When users access a short link, our service should redirect them to the original link.
+1.  Links will expire after a standard default timespan. Users should be able to specify the expiration time.
 
-- Non-Functional Requirements:
+### Non-Functional Requirements:
 
-  1.  The system should be highly available. This is required because, if our service is down, all the URL redirections will start failing.
-  1.  URL redirection should happen in real-time with minimal latency.
-  1.  Shortened links should not be guessable (not predictable).
-  1.  Capacity estimates: **Usage/Throughput/Traffic**
+1.  The system should be highly available. This is required because, if our service is down, all the URL redirections will start failing.
+1.  URL redirection should happen in real-time with minimal latency.
+1.  Shortened links should not be guessable (not predictable).
+1.  Capacity estimates: **Usage/Throughput/Traffic**
 
-      Assuming 10 million users in the system. And create short links 10 per month. And each URL is read 100 times by other users.
+    Assuming 10 million users in the system. And create short links 10 per month. And each URL is read 100 times by other users.
 
-      Write load - 10 _ 10 million = 100M
-      Read load - 100 _ 10 \* 10 million = 10B
+    Write load - 10 _ 10 million = 100M
+    Read load - 100 _ 10 \* 10 million = 10B
 
-      Read write ratio of 1000:1. Read heavy system.
+    Read write ratio of 1000:1. Read heavy system.
 
-      We could calculate the system throughput using the scale.
+    We could calculate the system throughput using the scale.
 
-      Scale: 1 request per second = 2.5 million requests per month
+    Scale: 1 request per second = 2.5 million requests per month
 
-      Write load - 40 request per second
-      Read load - 4000 request per second
+    Write load - 40 request per second
+    Read load - 4000 request per second
 
-  1.  Capacity estimates: **Storage**
+1.  Capacity estimates: **Storage**
 
-      Size of 1 Record is: 1.27 KB
+    Size of 1 Record is: 1.27 KB
 
-      ```
-      shortlink      - 7 bytes (slug)
-      expiration min - 4 bytes (expire)
-      created_at     - 5 bytes (created)
-      original url   - 255 bytes (destination)
+    ```
+    shortlink      - 7 bytes (slug)
+    expiration min - 4 bytes (expire)
+    created_at     - 5 bytes (created)
+    original url   - 255 bytes (destination)
 
-      total          = ~1.27 KB
-      ```
+    total          = ~1.27 KB
+    ```
 
-      Write 100M times = ~120 GB per month, 1.4 TB per year.
+    Write 100M times = ~120 GB per month, 1.4 TB per year.
 
-      Note: _The Short links expire after set duration. And expired links can be remove or delete, say after a month. (Purging or DB cleanup)_
+    Note: _The Short links expire after set duration. And expired links can be remove or delete, say after a month. (Purging or DB cleanup)_
 
 ## DB Schema:
 
