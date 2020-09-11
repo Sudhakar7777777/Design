@@ -53,7 +53,7 @@ Example:
     expiration min - 4 bytes (expire)
     created_at     - 5 bytes (created)
     original url   - 255 bytes (destination)
-
+    ...
     total          = ~1.27 KB
     ```
 
@@ -220,30 +220,50 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
 503 Service Unavailable 	— The requested service is not available
 ```
 
-## Design the Algorith to generate Short link or Slug
+## Design the Algorith to generating Shortlink or Slug
 
-Create an Architecture design for the API described in part 1:
+1. How many unique slugs we need to create based on the system load?
 
-1. Algorithm for URL shortening
+   Per capacity above 100M writes / month. So, 1200M or 1.2B writes/year.
+   If expired slugs are cleaned up then min of 2B unique slugs should be good.
 
-db row id
+1. How long should the slug be?
 
-(or)
+   Per current load we need ability to create 2B unique slugs.
 
-6 digit XXXXXX ==> 10\*\*6
-take a random number....
-make a string (charset -- alpha or.... 0-9, a-z, A-Z special char...)
-validate the short is not used.
+   Slug Length : 5
 
-(or)
+   - If use only numbers - Base10: max `10^5` or `100000` or `100K` possible strings.
+   - If use alpha + numbers (a-z, A-Z, 0-9) - Base62: max `62^5` or `~916M` possible strings.
+   - If use (a-z, A-Z, 0-9, +, /) - Base64: max `64^5` or `~1.07B` possible strings.
 
-2 + 4 digit XXXXXX ==>
-take a random number.... (db id)
-make a string (charset -- alpha or.... 0-9, a-z, A-Z special char...)
+   Slug Length : 6
 
-short + long
+   - If use only numbers - Base10: max `10^6` or `1000000` or `1M` possible strings.
+   - If use alpha + numbers (a-z, A-Z, 0-9) - Base62: max `62^6` or `~56.8B` possible strings.
+   - If use (a-z, A-Z, 0-9, +, /) - Base64: max `64^6` or `~68.7B` possible strings.
 
-======== Database choice/s ======
+   Based on Base62 or Base64 encoding, using length of 6 we can generated > 2B unique slugs.
+
+1. What is the algorithm to generate the slug?
+
+   These are few options:
+
+   1. SLUG = Base62(DB ID/Primary key)
+
+   1. SLUG = Destination URL + Hash Algorthm
+
+      Hash the destination URL with an algorithm like MD5 or SHA2 to generate unique hash value. Unfortunately these algorithm produce more than 8 characters so, we need to trucate 6. With this approach, we can end up with collisions. To avoid collision, check the slug is already used, if yes, pick the next 6 digits, etc.
+
+   1. SLUG = Base62(UUID or rowid)
+
+   1. SLUG = Base62()
+
+   1. Generating Keys offline in separate service and manage its usage
+
+   Regardless of the solution we choose, we need to understand how to manage collisions, latency impact on checking collisions, scalability and complexity of solution.
+
+## Choosing the Database
 
 Read are going to higher than the write...
 
@@ -257,12 +277,34 @@ MongoDB
 
 2. Ensure there is no single point of failure in the system.
 
-Browser --> LB(M) (enable Distrubuted Memory Cache) --> Webapp (H) --> (DB Cache) DB
+3. Dont solve the performance issue until you understand where is the bottleneck.
 
-LB (?) -- > LB1, LB2, LB3 ..,,.. (Nginx -> Dist Cache)
+Initial Simplest solution:
 
-LB Algorith -- Round robin, health, load, ...
+Browser --> LB --> Webapp(H) --> DB
 
-LB1 .... lookup on Cache?
+Knowing the system is READ heavy, quick benefits in cache incoming read requests.
 
-LB --> LB --> Proxy Service (Cache lookup : Memory ) (Cluster - of nodes -- share the memory )--> WebApp
+Browser --> LB(+C) --> Webapp(H) --> DB
+
+Cache on incoming request can be done in multiple ways:
+
+1. Webapp add a Filter and validate incoming request has been cached, if yes, send cached response.
+1. Add a proxy service between a LB and Webapp nodes to handle Cache or Rate limiting, etc.
+1. Enable LB caching (disk based caching)
+1. If using NGINX as LB, use NGINX Plus cache sharding that uses a consistent hashing algorithm.
+
+If we the webapps are performing slower and more features are getting added, the webapp can be split as Read and Write service. Read service only serves redirection requests and Write service handles new shortlink / slug creations.
+
+If we see the DB Reads and Write are slower. We can add a Caching layer before the DB. And use a simple write through cache or similar methods.
+
+Browser --> LB(+C or +CD) --> Webapp(H) --> (+CD) -->DB
+
+Cache Types: Inmemory cache, Distributed cache
+Products: Redis, Ehcache, Hazelcast, etc.
+
+And lastly instead of using one layer of LB, 2 layers can be used to ensure LB are no longer a single point of failures. Layer 1 LB can use simple algorithm to route to one of exising other LB layer2 nodes.
+
+LB algorithms - Round robin, based on health, load of the target system.
+
+Browser --> LB\*\*2(+C or +CD) --> Webapp(H) --> (+CD) -->DB
