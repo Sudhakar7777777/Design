@@ -307,4 +307,10 @@ And lastly instead of using one layer of LB, 2 layers can be used to ensure LB a
 
 LB algorithms - Round robin, based on health, load of the target system.
 
-Browser --> LB\*\*2(+C or +CD) --> Webapp(H) --> (+CD) -->DB
+Browser --> LB^2(+C or +CD) --> Webapp(H) --> (+CD) -->DB
+
+# References
+
+- https://github.com/donnemartin/system-design-primer/tree/master/solutions/system_design/pastebin
+- https://www.educative.io/courses/grokking-the-system-design-interview/m2ygV4E81AR
+- https://www.interviewcake.com/question/java/url-shortener
