@@ -30,10 +30,10 @@ Example:
 1.  Shortened links should not be guessable (not predictable).
 1.  Capacity estimates: **Usage/Throughput/Traffic**
 
-    Assuming 10 million users in the system. And create short links 10 per month. And each URL is read 100 times by other users.
+    Assuming 10 million users in the system. And create short links 10 per month. And each URL is read 1000 times by other users.
 
     - Write load `10 * 10 million = 100M writes`
-    - Read load `100 * 10 * 10 million = 10B reads`
+    - Read load `1000 * 10 * 10 million = 100B reads`
 
     Read write ratio of `1000:1`. **Read heavy** system.
 
@@ -69,7 +69,7 @@ Example:
     CRT_TS    DATETIME      NOT NULL
     DEST_PATH VARCHAR(255)  NOT NULL
 
-    PRIMARY KEY(shortlink)
+    PRIMARY KEY(SLUG)
 
 ## API Design:
 
