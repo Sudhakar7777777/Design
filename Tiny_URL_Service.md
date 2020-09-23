@@ -220,7 +220,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
 503 Service Unavailable 	— The requested service is not available
 ```
 
-## Design the Algorith to generating Shortlink or Slug
+## Design the Algorithm to generating Shortlink or Slug
 
 1. How many unique slugs we need to create based on the system load?
 
