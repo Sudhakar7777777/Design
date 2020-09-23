@@ -89,7 +89,7 @@ Design the API endpoints (CRUD) to include the resource name, payload, and respo
    }
    ```
 
-   PS: 60 _ 24 _ 10 = 1440 / 10 days in minutes
+   PS: 60 * 24 * 10 = 1440 (10 days in minutes)
 
    **Success Response:**
 
